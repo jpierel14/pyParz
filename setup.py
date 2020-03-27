@@ -11,7 +11,7 @@ setup(name='pyParz',
       author='Justin Pierel',
       author_email='jr23@email.sc.edu',
       url='http://github.com/jpierel14',
-      version='0.0.3',
+      version='1.0.0',
       packages=['pyParz']
       
 )

@@ -9,17 +9,28 @@ except:
 
 __all__=['foreach','parReturn']
 
-def foreach(toPar,parFunc,args,numThreads=multiprocessing.cpu_count()):
+def foreach(toPar,parFunc,args=None,numThreads=multiprocessing.cpu_count()):
     results=[]
     p = Pool(processes=numThreads)
-    for x in p.imap_unordered(_parWrap,[[parFunc,np.append(y,args)] for y in toPar]):
-        results.append(x)
-    p.close()
+    if args is not None:
+        if isinstance(toPar[0],(list,tuple,np.ndarray)):
+            for x in p.imap_unordered(_parWrap,[[parFunc,[y,args]] for y in toPar]):
+                results.append(x)
+        else:
+            for x in p.imap_unordered(_parWrap,[[parFunc,np.append(y,args)] for y in toPar]):
+                results.append(x)
+        p.close()
+    else:
+        
+        for x in p.imap_unordered(_parWrap,[[parFunc,y] for y in toPar]):
+            results.append(x)
+        p.close()
 
     return results
 
 def _parWrap(args):
     func,newArgs=args
+    
     try:
         return(func(newArgs))
     except RuntimeError:

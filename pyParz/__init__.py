@@ -5,5 +5,5 @@
 
 # -------------------------------------------------------------------
     # For egg_info test builds to pass, put package imports here.
-from __future__ import print_function    
-from .pyParz import *
+
+from .parallelize import *
