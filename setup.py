@@ -10,7 +10,7 @@ setup(name='pyParz',
       install_requires=['numpy'],
       author='Justin Pierel',
       author_email='jr23@email.sc.edu',
-      url='http://github.com/jpierel14',
+      url='http://github.com/jpierel14/pyParz',
       version='1.0.0',
       packages=['pyParz']
       

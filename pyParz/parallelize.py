@@ -10,6 +10,26 @@ except:
 __all__=['foreach','parReturn']
 
 def foreach(toPar,parFunc,args=None,numThreads=multiprocessing.cpu_count()):
+    """Main pyParz function.
+
+    Parameters
+    ----------
+    toPar: :class:`~list` or :class:`~numpy.ndarray`
+            The list of things to be parallelized.
+    parFunc: function
+            The function that each element of toPar is passed to.
+    args: :class:`~list`
+            The list of arguments to be passed to each iteration.
+    numTreads: int
+            The number of cores you want to use.
+
+    Returns
+    -------
+    results: :class:`~list`
+            The list of results in arbitrary order
+    """
+
+
     results=[]
     p = Pool(processes=numThreads)
     if args is not None:
@@ -51,6 +71,17 @@ def _pickleable(obj):
     return pickle
 
 def parReturn(toReturn):
+    """Optional return function.
+
+    Parameters
+    ----------
+    toReturn: :class:`~list` or :class:`~np.ndarray` or :class:`~dict`
+            Item to return
+    Returns
+    -------
+    final:
+        Returns pickleable elements.
+    """
     if isinstance(toReturn,dict):
         final=dict([])
         for key in toReturn:
@@ -59,7 +90,7 @@ def parReturn(toReturn):
             else:
                 print("Had to remove object %s from return dictionary, as it was not pickleable."%key)
 
-    elif isinstance(toReturn,(tuple,list,np.array)):
+    elif isinstance(toReturn,(tuple,list,np.ndarray)):
         final=[]
         for i in range(len(toReturn)):
             if _pickleable(toReturn[i]):

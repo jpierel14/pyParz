@@ -1,9 +1,0 @@
-scipy
-sncosmo
-astropy
-matplotlib
-nestle
-pyParz
-sklearn
-pytest-astropy
-corner

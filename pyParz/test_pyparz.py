@@ -1,42 +1,36 @@
 ##Tests for pipeline
 import sys,os,traceback
 import numpy as np
+import time
 sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)),'..'))
 import pyParz
 
+indata=np.arange(0,100,1)
 def par_func1(x):
+	time.sleep(.1)
 	return(x**2)
+start = time.time()
+res=[par_func1(x) for x in indata]
+end = time.time()
+print('without par',end - start)
+start = time.time()
+res=pyParz.foreach(indata,par_func1,args=None)
+end = time.time()
+print('with par',end - start)
+
+indata2=1
+
 def par_func2(args):
-	x,y=args
-	return(x**2+y)
-def test_pyparz():
-	failed=0
-	total=0
-	indata=np.arange(0,1000,1)
-	try:   
-		total+=1 
-		res=pyParz.foreach(indata,par_func1,args=None)
-		print('Passed!')
-	except Exception as e:
-		print('Failed')
-		print(traceback.format_exc())
-		
-		failed+=1
+  x,y=args
+  time.sleep(.1)
+  return(x**2+y)
+start = time.time()
+res=[par_func2([x,indata2]) for x in indata]
+end = time.time()
+print('without par',end - start)
+start = time.time()
+res2=pyParz.foreach(indata,par_func2,args=[indata2])
+end = time.time()
+print('with par',end - start)
 
-	try:   
-		total+=1 
-		indata2=1
-		res=pyParz.foreach(indata,par_func2,args=[indata2])
-		print('Passed!')
-	except Exception as e:
-		print('Failed')
-		print(traceback.format_exc())
-		
-		failed+=1	
 
-	print('Passed %i/%i tests.'%(total-failed,total))
-
-	return
-
-if __name__ == '__main__':
-	test_pyparz()
