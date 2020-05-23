@@ -1,5 +1,6 @@
 import os,warnings,sys
 import numpy as np
+import traceback
 import multiprocessing
 from multiprocessing import Pool
 try:
@@ -53,9 +54,9 @@ def _parWrap(args):
     
     try:
         return(func(newArgs))
-    except RuntimeError:
-        print('something')
-        return(None)
+    except Exception as e:
+        print('Failed')
+        return(traceback.format_exc())
 
 def _pickleable(obj):
     try:
@@ -81,7 +82,7 @@ def parReturn(toReturn):
     -------
     final:
         Returns pickleable elements.
-    """
+    """ 
     if isinstance(toReturn,dict):
         final=dict([])
         for key in toReturn:
