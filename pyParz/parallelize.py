@@ -55,8 +55,8 @@ def _parWrap(args):
     try:
         return(func(newArgs))
     except Exception as e:
-        print('Failed')
-        return(traceback.format_exc())
+        print(traceback.format_exc())
+        return(None)
 
 def _pickleable(obj):
     try:
